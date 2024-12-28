@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <audio src="/assets/sounds/error.mp3" class="hidden" ref="error"></audio>
+    <audio src="assets/sounds/error.mp3" class="hidden" ref="error"></audio>
 
 </template>
 <script lang="ts" setup>

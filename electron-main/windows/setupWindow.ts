@@ -8,14 +8,18 @@ export default async function startSetupWindow() {
             width: 1920,
             height: 1080,
             webPreferences: {
-                preload: path.join(import.meta.dirname, 'index.mjs')
+                preload: path.join(import.meta.dirname, 'index.mjs'),
+                webSecurity: false
             }
         });
 
+        if (process.argv.includes('--devtools')) window.webContents.openDevTools({
+            mode: 'undocked'
+        });
         if (process.env.VITE_DEV_SERVER_URL) {
             window.loadURL(`${process.env.VITE_DEV_SERVER_URL}#/setup`);
         } else {
-            window.loadFile(`dist/index.html#/setup`);
+            window.loadFile(`dist/setup.html`);
         }
         window.setMenu(null);
 
