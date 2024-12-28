@@ -9,6 +9,7 @@ export default function startForgetToRecordDetector() {
     setInterval(async () => {
         if (notified) return;
         const info = getLast();
+        if (!info) return;
         const config = await readConfig();
         const currentTimeTable = config.data.notify.forgetToRecord.timetable[
             new Date().getDay() || 7

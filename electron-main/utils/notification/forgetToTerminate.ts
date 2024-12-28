@@ -7,6 +7,7 @@ export default function startForgetToTerminateDetector() {
     let notified = false;
     setInterval(async () => {
         const info = getLast();
+        if (!info) return;
         const config = await readConfig();
         if (!notified) {
             if (Date.now() - info.createTime >= config.data.notify.forgetToTerminate && info.status == 'recording' && config.data.features.forgetToTerminateNotification) {
