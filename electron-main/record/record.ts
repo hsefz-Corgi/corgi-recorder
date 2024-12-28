@@ -10,6 +10,7 @@ import * as lock from '../utils/lock';
 
 import showError from '../windows/errorWindow';
 import requestCourseInfoInput from '../windows/requestCourseInfoInputWindow';
+import showProgressWindow from '../windows/progressWindow';
 
 import { addMeta, getAllMetadata, getLast } from '../utils/videosMetaInfo';
 
@@ -56,11 +57,34 @@ export function terminate(config: CorgiConfig) {
 
         const courseContentPromise = (config.fileSavePath.includes('%course%') || config.fileSavePath.includes('%abstract%')) ? requestCourseInfoInput(config) : null;
 
+        const progress = showProgressWindow(config);
+
         const exportTask = exec(command);
         exportTask.stderr?.on('data', (data) => {
             logger.info('ffmpeg', data?.toString());
+            data.toString().split('\n').forEach((msg: string) => {
+                if (msg.includes('time=')) {
+                    const progressArray = msg
+                        .substring(msg.indexOf('time='))
+                        .split(' ')[0]
+                        .split('=')[1]
+                        .split('.')[0]
+                        .split(':')
+                        .map(item => parseInt(item));
+                    /*
+                     * example
+                     * ffmpeg frame=  273 fps= 60 q=-1.0 Lsize=     994kB time=00:00:09.09 bitrate= 895.5kbits/s dup=248 drop=0 speed=1.98x
+                    * video:839kB audio:144kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 1.174847%
+                     */
+                    const currentConverted = progressArray[0] * 3600 + progressArray[1] * 60 + progressArray[2];
+                    const currentProgress = Math.round(currentConverted / (info.duration / 1000 /* ms -> s */) * 1000) / 10; // currentProgress: percentage
+                    progress.updateProgress(currentProgress);
+                    logger.info('progress = ', currentProgress);
+                }
+            });
         });
         exportTask.on('exit', async () => {
+            progress.close();
             lock.release('ffmpeg');
             const courseContent = await courseContentPromise;
             logger.info('course', courseContent);

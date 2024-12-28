@@ -4,7 +4,8 @@ import configView from '@/views/configView.vue';
 import setupView from '@/views/setupView.vue';
 import recordView from '@/views/recordView.vue';
 import errorView from '@/views/errorView.vue';
-import InputView from '@/views/inputView.vue';
+import inputView from '@/views/inputView.vue';
+import progressView from '@/views/progressView.vue';
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -32,7 +33,12 @@ const router = createRouter({
         {
             name: 'input',
             path: '/input',
-            component: InputView
+            component: inputView
+        },
+        {
+            name: 'progress',
+            path: '/progress',
+            component: progressView
         }
     ],
 })
