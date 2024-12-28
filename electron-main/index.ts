@@ -75,4 +75,5 @@ Promise.all([
     }
 
     await startMainWindow(config.data);
+    app.quit();
 });
