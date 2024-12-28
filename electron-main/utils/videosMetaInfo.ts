@@ -41,6 +41,6 @@ export function addMeta(data: videoMeta) {
     return meta.length - 1;
 }
 
-export function getLast() {
+export function getLast(): videoMeta | null {
     return meta[meta.length - 1];
 }
