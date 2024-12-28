@@ -46,6 +46,7 @@ export function terminate(config: CorgiConfig) {
     logger.info('Record terminated.');
 
     const info = getLast();
+    if (!info) return logger.error('Error: fail to get the last video meta.');
     info.status = 'exporting';
     info.duration = Date.now() - info.createTime;
 
