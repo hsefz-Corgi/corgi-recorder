@@ -9,7 +9,6 @@ export default function startForgetToRecordDetector() {
     setInterval(async () => {
         if (notified) return;
         const info = getLast();
-        if (!info) return;
         const config = await readConfig();
         const currentTimeTable = config.data.notify.forgetToRecord.timetable[
             new Date().getDay() || 7
@@ -28,7 +27,7 @@ export default function startForgetToRecordDetector() {
         for (let i = 0; i < currentTimeTable.length; i++) {
             // TODO: Use O(log(n)) binary search to instead of O(n) foreach
             const destination = parseInt(currentTimeTable[i].split(':')[0]) * 60 + parseInt(currentTimeTable[i].split(':')[1]);
-            if (info.status != 'recording' && currentMinute == destination && config.data.features.forgetToRecordNotification) {
+            if (info?.status != 'recording' && currentMinute == destination && config.data.features.forgetToRecordNotification) {
                 logger.warn('Forget to record', currentTimeTable[i]);
                 showError(config.data.software.title, config.data.notify.forgetToRecord.message);
                 notified = true;
