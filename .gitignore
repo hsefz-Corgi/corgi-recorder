@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
+build
 dist
 dist-electron
 dist-ssr
@@ -20,6 +21,7 @@ coverage
 
 # Editor directories and files
 .vscode/*
+.vscodeCounter
 !.vscode/extensions.json
 .idea
 *.suo
@@ -29,3 +31,5 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+*.exe
+corgi_log
