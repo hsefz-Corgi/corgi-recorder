@@ -13,7 +13,8 @@ export default async function startMainWindow(config: CorgiConfig) {
             width: 180,
             height: 92,
             webPreferences: {
-                preload: path.join(import.meta.dirname, 'index.mjs')
+                preload: path.join(import.meta.dirname, 'index.mjs'),
+                webSecurity: false
             },
             show: false,
             minimizable: false,
@@ -24,12 +25,14 @@ export default async function startMainWindow(config: CorgiConfig) {
         if (process.env.VITE_DEV_SERVER_URL) {
             window.loadURL(`${process.env.VITE_DEV_SERVER_URL}#/record`);
         } else {
-            window.loadFile(`dist/index.html#/record`);
+            window.loadFile(`dist/record.html`);
         }
         window.setMenu(null);
         window.setPosition(400, 20);
 
-        if (!app.isPackaged) window.webContents.openDevTools();
+        if (!app.isPackaged || process.argv.includes('--devtools')) window.webContents.openDevTools({
+            mode: 'undocked'
+        });
         if (config.features.alwaysOnTop.enabled) window.setAlwaysOnTop(true, 'screen-saver');
         window.on('ready-to-show', () => window.show());
         window.on('close', (e) => {

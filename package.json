@@ -1,25 +1,22 @@
 {
     "name": "corgi-recorder",
-    "version": "0.0.0",
+    "version": "2.0.0",
     "private": true,
     "main": "dist-electron/index.js",
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "run-p type-check \"build-only {@}\" --",
+        "build": "vite build && electron-builder --x64",
         "preview": "vite preview",
-        "build-only": "vite build",
+        "build-ui": "vite build",
+        "build-app": "electron-builder --x64",
         "type-check": "vue-tsc --build",
         "lint": "eslint . --fix",
         "format": "prettier --write src/"
     },
     "dependencies": {
         "log4js": "^6.9.1",
-        "naive-ui": "^2.40.3",
-        "tailwindcss": "^3.4.16",
-        "uuid": "^11.0.3",
-        "vue": "^3.5.13",
-        "vue-router": "^4.4.5"
+        "uuid": "^11.0.3"
     },
     "devDependencies": {
         "@tsconfig/node22": "^22.0.0",
@@ -40,6 +37,28 @@
         "vite": "^6.0.3",
         "vite-plugin-electron": "^0.29.0",
         "vite-plugin-vue-devtools": "^7.6.5",
-        "vue-tsc": "^2.1.10"
+        "vue-tsc": "^2.1.10",
+        "vue": "^3.5.13",
+        "vue-router": "^4.4.5",
+        "naive-ui": "^2.40.3",
+        "tailwindcss": "^3.4.16"
+    },
+    "description": "Corgi Recorder",
+    "author": "Corgi",
+    "build": {
+        "productName": "CorgiRecorder",
+        "appId": "recorder.corgi.hsefz.cn",
+        "win": {
+            "icon": "corgi.ico"
+        },
+        "compression": "maximum",
+        "files": [
+            "dist",
+            "dist-electron",
+            "corgi.ico"
+        ],
+        "directories": {
+            "output": "build"
+        }
     }
 }
