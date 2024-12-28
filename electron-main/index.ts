@@ -17,6 +17,7 @@ import { registerAudioInfoFetcherIpcHandler } from './record/getAudioInfo';
 import { cleanupFlv, registerRecorderIpc } from './record/record';
 
 import startForgetToTerminateDetector from './utils/notification/forgetToTerminate';
+import startForgetToRecordDetector from './utils/notification/forgetToRecord';
 
 if (!app.requestSingleInstanceLock()) app.quit();
 
@@ -64,6 +65,7 @@ Promise.all([
     logger.info('IPC registered.');
 
     startForgetToTerminateDetector();
+    startForgetToRecordDetector();
     logger.info('Task registered.');
 
     if (await isFirstRun()) {
