@@ -20,7 +20,8 @@ export default function showError(title: string, message: string) {
             minimizable: false,
             skipTaskbar: true,
             webPreferences: {
-                preload: path.join(import.meta.dirname, 'index.mjs')
+                preload: path.join(import.meta.dirname, 'index.mjs'),
+                webSecurity: false
             },
             show: false,
             transparent: true
@@ -38,10 +39,13 @@ export default function showError(title: string, message: string) {
             window.hide();
         });
 
+        if (process.argv.includes('--devtools')) window.webContents.openDevTools({
+            mode: 'undocked'
+        });
         if (process.env.VITE_DEV_SERVER_URL) {
             window.loadURL(`${process.env.VITE_DEV_SERVER_URL}#/error`);
         } else {
-            window.loadFile(`dist/index.html#/error`);
+            window.loadFile(`dist/error.html`);
         }
         window.setMenu(null);
 
@@ -54,4 +58,10 @@ export function registerErrorBoxIpc() {
         logger.info('Hide error box', windowId);
         errorBoxes[windowId].hide();
     });
+}
+
+export function closeAllErrorWindows() {
+    currentErrorBoxId = 0;
+    errorBoxes.forEach(window => window.close());
+    errorBoxes.length = 0;
 }

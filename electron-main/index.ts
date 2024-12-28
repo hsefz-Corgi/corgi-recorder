@@ -8,7 +8,7 @@ import isFirstRun from './utils/isFirstRun';
 import startConfigWindow, { registerConfigWindowIpc } from './windows/configWindow';
 import startSetupWindow from './windows/setupWindow';
 import startMainWindow from './windows/mainWindow';
-import { registerErrorBoxIpc } from './windows/errorWindow';
+import { closeAllErrorWindows, registerErrorBoxIpc } from './windows/errorWindow';
 
 import { registerVideoTestIpcHandler } from './record/test/video';
 import { registerAudioTestIpcHandler } from './record/test/audio';
@@ -75,5 +75,7 @@ Promise.all([
     }
 
     await startMainWindow(config.data);
+    logger.info('quit app');
+    closeAllErrorWindows();
     app.quit();
 });

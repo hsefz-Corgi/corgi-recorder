@@ -14,7 +14,8 @@ export default function requestCourseInfoInput(config: CorgiConfig) {
             width: 350,
             height: 230,
             webPreferences: {
-                preload: path.join(import.meta.dirname, 'index.mjs')
+                preload: path.join(import.meta.dirname, 'index.mjs'),
+                webSecurity: false
             },
             show: false,
             minimizable: false,
@@ -23,10 +24,13 @@ export default function requestCourseInfoInput(config: CorgiConfig) {
             closable: false
         });
 
+        if (process.argv.includes('--devtools')) window.webContents.openDevTools({
+            mode: 'undocked'
+        });
         if (process.env.VITE_DEV_SERVER_URL) {
             window.loadURL(`${process.env.VITE_DEV_SERVER_URL}#/input`);
         } else {
-            window.loadFile(`dist/index.html#/input`);
+            window.loadFile(`dist/input.html`);
         }
         window.setMenu(null);
 
