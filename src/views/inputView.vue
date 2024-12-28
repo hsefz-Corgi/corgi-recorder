@@ -10,7 +10,7 @@
         </div>
         <div>
             名称：<n-input v-model:value="courseName" style="width: 250px; display:inline-block" show-count :maxlength="80"
-                placeholder="" clearable></n-input>
+                placeholder="" clearable @keydown.enter="save"></n-input>
         </div>
         <n-button @click="save" type="primary">保存</n-button>
     </n-space>
