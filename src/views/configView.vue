@@ -242,6 +242,15 @@ refreshAudioInfo();
 const saving = ref(false);
 const saveConfig = () => {
     saving.value = true;
+
+    for (let i = 0; i < config.notify.forgetToRecord.timetable.length; i++) {
+        config.notify.forgetToRecord.timetable[i] = config.notify.forgetToRecord.timetable[i].sort((a, b) => {
+            return (parseInt(a.split(':')[0]) * 60 + parseInt(a.split(':')[1])) - (parseInt(b.split(':')[0]) * 60 + parseInt(b.split(':')[1]));
+            // a, b format: hh:mm time string
+            // keep timetable in order so as to realize O(log n) binary search
+        });
+    }
+
     bridge.config.set(JSON.parse(JSON.stringify(config)));
     setTimeout(() => window.close(), 2500);
 }
