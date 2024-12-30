@@ -25,7 +25,7 @@ export async function start(config: CorgiConfig) {
     recordProcess.stderr?.on('data', (data) => logger.info('ffmpeg', data?.toString()));
     recordProcess.on('close', () => {
         if (isRecording()) {
-            showError(config.software.title, 'FFmpeg failed. Please check logs.');
+            showError('FFmpeg failed. Please check logs.');
         }
     });
 

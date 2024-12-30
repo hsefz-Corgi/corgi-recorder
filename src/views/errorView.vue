@@ -28,20 +28,19 @@ import { ref } from 'vue';
 import getBridge from '@/utils/jsbridge';
 
 const appName = ref('');
-const title = ref('');
 const content = ref('');
-const error = ref<HTMLAudioElement>();
-const confirmButton = ref<HTMLButtonElement>();
 const id = ref(0);
 const bridge = getBridge();
+
+const error = ref<HTMLAudioElement>();
+const confirmButton = ref<HTMLButtonElement>();
 
 bridge.config.get().then(config => {
     appName.value = config.software.title;
 });
 
 const close = () => bridge.page.error.close(id.value);
-(window as any).showError = (_title: string, _content: string, _id: number) => {
-    title.value = _title;
+(window as any).showError = (_content: string, _id: number) => {
     content.value = _content;
     id.value = _id;
     error.value?.play();

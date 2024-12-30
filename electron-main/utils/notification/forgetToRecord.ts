@@ -29,7 +29,7 @@ export default function startForgetToRecordDetector() {
             const destination = parseInt(currentTimeTable[i].split(':')[0]) * 60 + parseInt(currentTimeTable[i].split(':')[1]);
             if (info?.status != 'recording' && currentMinute == destination && config.data.features.forgetToRecordNotification) {
                 logger.warn('Forget to record', currentTimeTable[i]);
-                showError(config.data.software.title, config.data.notify.forgetToRecord.message);
+                showError(config.data.notify.forgetToRecord.message);
                 notified = true;
                 setTimeout(() => notified = false, 60 * 1000);
             }

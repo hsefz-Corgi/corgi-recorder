@@ -5,10 +5,10 @@ import { logger } from '../utils/configureLog';
 const errorBoxes: BrowserWindow[] = [];
 const errorBoxesMaximumCount = 3;
 let currentErrorBoxId = 0;
-export default function showError(title: string, message: string) {
+export default function showError(message: string) {
     if (errorBoxes.length == errorBoxesMaximumCount) {
         errorBoxes[currentErrorBoxId].show();
-        errorBoxes[currentErrorBoxId].webContents.executeJavaScript(`window.showError('${title}', '${message}', ${currentErrorBoxId})`);
+        errorBoxes[currentErrorBoxId].webContents.executeJavaScript(`window.showError('${message}', ${currentErrorBoxId})`);
         currentErrorBoxId = (currentErrorBoxId + 1) % errorBoxesMaximumCount;
     } else {
         const window = new BrowserWindow({
@@ -32,7 +32,7 @@ export default function showError(title: string, message: string) {
 
         window.once('ready-to-show', () => {
             window.show();
-            window.webContents.executeJavaScript(`window.showError('${title}', '${message}', ${errorWindowId})`);
+            window.webContents.executeJavaScript(`window.showError('${message}', ${errorWindowId})`);
         });
         window.on('close', (event) => {
             event.preventDefault();
