@@ -90,7 +90,7 @@ export function terminate(config: CorgiConfig) {
             const courseContent = await courseContentPromise;
             logger.info('course', courseContent);
             const currentTime = new Date();
-            const savePath = config.fileSavePath
+            const savePath = path.normalize(config.fileSavePath
                 .replaceAll('%year%', currentTime.getFullYear().toString())
                 .replaceAll('%month%', (currentTime.getMonth() + 1).toString())
                 .replaceAll('%date%', currentTime.getDate().toString())
@@ -98,7 +98,7 @@ export function terminate(config: CorgiConfig) {
                 .replaceAll('%minute%', currentTime.getMinutes().toString())
                 .replaceAll('%second%', currentTime.getSeconds().toString())
                 .replaceAll('%course%', courseContent?.name ?? '')
-                .replaceAll('%abstract%', courseContent?.abstract ?? '');
+                .replaceAll('%abstract%', courseContent?.abstract ?? ''));
 
             await fs.mkdir(path.dirname(savePath), {
                 recursive: true
@@ -110,7 +110,7 @@ export function terminate(config: CorgiConfig) {
 
             info.savePath = savePath;
             info.status = 'saved';
-            exec(`explorer.exe /select, "${info.savePath}"`);
+            exec(`explorer.exe /select,"${info.savePath}"`);
         });
     }, 2000);
 }
