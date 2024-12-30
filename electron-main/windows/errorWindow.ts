@@ -13,7 +13,7 @@ export default function showError(title: string, message: string) {
     } else {
         const window = new BrowserWindow({
             height: 400,
-            width: 420,
+            width: 350,
             frame: false,
             resizable: false,
             maximizable: false,
