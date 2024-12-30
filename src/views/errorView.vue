@@ -3,21 +3,21 @@
         <div class="title">
             <div class=" text-sm text-gray-400 font-thin">{{ appName }}</div>
             <div style="position: fixed; right: 0px; top: 0px; padding-left: 4px; padding-right: 4px"
-                class="close hover:bg-red-600" @click="close">
-                <text class="pr-1.5 pl-1.5 text-xl">×</text>
+                class="close hover:bg-red-600 cursor-pointer" @click="close">
+                <span class="pr-1.5 pl-1.5 text-xl">×</span>
             </div>
         </div>
         <div>
             <div class="bg-white pl-2 pr-2 pt-3 pb-3">
-                <table class="border-spacing-0">
-                    <div class="pl-4 pr-4 pt-4 text-base">{{ content }}</div>
-                </table>
+                <div class="pl-4 pr-4 pt-4 text-base">{{ content }}</div>
             </div>
 
         </div>
     </div>
     <div class=" bg-gray-100 border-gray-400 border-l border-r border-b pl-2 pr-2 pt-2 pb-2 text-right ">
-        <button @click="close" class=" select-none border-gray-400 bg-gray-250 hover:bg-gray-300 border pl-4 pr-4 text-sm">确定</button>
+        <button @click="close"
+            class=" select-none border-gray-400 bg-gray-250 hover:bg-gray-300 border pl-4 pr-4 text-sm" autofocus
+            @keydown.enter="close" ref="confirmButton">确定</button>
     </div>
 
     <audio src="assets/sounds/error.mp3" class="hidden" ref="error"></audio>
@@ -31,6 +31,7 @@ const appName = ref('');
 const title = ref('');
 const content = ref('');
 const error = ref<HTMLAudioElement>();
+const confirmButton = ref<HTMLButtonElement>();
 const id = ref(0);
 const bridge = getBridge();
 
@@ -44,6 +45,9 @@ const close = () => bridge.page.error.close(id.value);
     content.value = _content;
     id.value = _id;
     error.value?.play();
+    if (confirmButton.value) {
+        confirmButton.value.focus();
+    }
 };
 
 </script>
