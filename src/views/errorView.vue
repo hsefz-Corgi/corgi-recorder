@@ -14,9 +14,9 @@
 
         </div>
     </div>
-    <div class=" bg-gray-100 border-gray-400 border-l border-r border-b pl-2 pr-2 pt-2 pb-2 text-right ">
+    <div class="bg-gray-100 border-gray-400 border-l border-r border-b pl-2 pr-2 pt-2 pb-2 text-right ">
         <button @click="close"
-            class=" select-none border-gray-400 bg-gray-250 hover:bg-gray-300 border pl-4 pr-4 text-sm" autofocus
+            class="focus:outline-none focus:border-blue-400 select-none border-gray-400 border pl-4 pr-4 text-sm hover:bg-radial-gradient" autofocus
             @keydown.enter="close" ref="confirmButton">确定</button>
     </div>
 

@@ -12,7 +12,7 @@ export default function showError(message: string) {
         currentErrorBoxId = (currentErrorBoxId + 1) % errorBoxesMaximumCount;
     } else {
         const window = new BrowserWindow({
-            height: 400,
+            height: 175,
             width: 350,
             frame: false,
             resizable: false,

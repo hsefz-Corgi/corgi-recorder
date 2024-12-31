@@ -5,7 +5,11 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx,vue}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            backgroundImage: {
+                'radial-gradient': 'radial-gradient(#e5e7eb, #bae6fd)',
+            },
+        },
     },
     plugins: [],
 }
