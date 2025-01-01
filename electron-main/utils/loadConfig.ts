@@ -100,7 +100,7 @@ export async function applyConfig(config: CorgiConfig) {
     if (!config.features.allowToExit.enabled) rejectToExit(config);
 }
 
-export function registerConfigIpc() {
+export function registerConfigIpcHandler() {
     ipcMain.handle('config:get', (_e) => {
         return config;
     });

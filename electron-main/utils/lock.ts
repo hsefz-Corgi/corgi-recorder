@@ -26,7 +26,7 @@ export async function waitForLock(id: string, interval: number = 100) {
     while (!request(id)) await sleep(interval);
 }
 
-export function registerLockIpc() {
+export function registerLockIpcHandler() {
     ipcMain.handle('lock:get', (_e, id: string, wait: boolean) => {
         return wait ? request(id) : waitForLock(id);
     });

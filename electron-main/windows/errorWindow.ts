@@ -53,7 +53,7 @@ export default function showError(message: string) {
     }
 }
 
-export function registerErrorBoxIpc() {
+export function registerErrorBoxIpcHandler() {
     ipcMain.handle('page:error:close', (_e, windowId: number) => {
         logger.info('Hide error box', windowId);
         errorBoxes[windowId].hide();

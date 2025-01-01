@@ -40,6 +40,6 @@ export default async function startConfigWindow(config: CorgiConfig) {
     });
 }
 
-export function registerConfigWindowIpc() {
+export function registerConfigWindowIpcHandler() {
     ipcMain.handle('page:open:config', async (_e) => startConfigWindow((await readConfig()).data));
 }

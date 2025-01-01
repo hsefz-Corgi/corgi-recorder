@@ -1,20 +1,20 @@
 import { app, dialog } from 'electron';
 
 import detectEnvironment from './utils/detectEnvironment';
-import { registerLockIpc } from './utils/lock';
-import { applyConfig, readConfig, registerConfigIpc } from './utils/loadConfig';
+import { applyConfig, readConfig, registerConfigIpcHandler } from './utils/loadConfig';
 import isFirstRun from './utils/isFirstRun';
 
-import startConfigWindow, { registerConfigWindowIpc } from './windows/configWindow';
+import startConfigWindow, { registerConfigWindowIpcHandler } from './windows/configWindow';
 import startSetupWindow from './windows/setupWindow';
 import startMainWindow from './windows/mainWindow';
-import { closeAllErrorWindows, registerErrorBoxIpc } from './windows/errorWindow';
+import { closeAllErrorWindows, registerErrorBoxIpcHandler } from './windows/errorWindow';
 
 import { registerVideoTestIpcHandler } from './record/test/video';
 import { registerAudioTestIpcHandler } from './record/test/audio';
 import { registerAudioInfoFetcherIpcHandler } from './record/getAudioInfo';
 
-import { cleanupFlv, registerRecorderIpc } from './record/record';
+import { cleanupFlv, registerRecorderIpcHandler } from './record/record';
+import { registerLockIpcHandler } from './utils/lock';
 
 import startForgetToTerminateDetector from './utils/notification/forgetToTerminate';
 import startForgetToRecordDetector from './utils/notification/forgetToRecord';
@@ -52,12 +52,12 @@ Promise.all([
     app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
     // auto-play error music
 
-    registerConfigIpc();
-    registerLockIpc();
+    registerConfigIpcHandler();
+    registerLockIpcHandler();
 
-    registerConfigWindowIpc();
-    registerErrorBoxIpc();
-    registerRecorderIpc();
+    registerConfigWindowIpcHandler();
+    registerErrorBoxIpcHandler();
+    registerRecorderIpcHandler();
 
     registerVideoTestIpcHandler();
     registerAudioTestIpcHandler();

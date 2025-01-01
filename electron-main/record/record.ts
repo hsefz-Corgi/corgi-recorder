@@ -134,7 +134,7 @@ export function isExporting() {
     return getLast()?.status == 'exporting';
 }
 
-export function registerRecorderIpc() {
+export function registerRecorderIpcHandler() {
     ipcMain.handle('record:start', async () => {
         start((await readConfig()).data);
     });
