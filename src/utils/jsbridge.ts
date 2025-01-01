@@ -52,7 +52,8 @@ export interface Bridge {
     },
     page: {
         config: {
-            open: () => Promise<void>
+            open: () => Promise<void>,
+            exportLog: () => Promise<void>
         },
         error: {
             close: (id: number) => Promise<void>;

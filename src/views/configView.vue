@@ -155,7 +155,12 @@
             </div>
         </n-space>
         <hr />
-        <n-button @click="saveConfig" type="primary" :loading="saving">保存</n-button>
+        <div>
+            <n-button @click="saveConfig" type="primary" :loading="saving">保存</n-button>
+            &nbsp;
+            &nbsp;
+            <n-button @click="exportLogs" type="primary" :loading="exportingLog">导出日志</n-button>
+        </div>
         &nbsp; &nbsp; 部分更改可能需要在重启后才能应用
     </n-space>
 </template>
@@ -253,6 +258,14 @@ const saveConfig = () => {
 
     bridge.config.set(JSON.parse(JSON.stringify(config)));
     setTimeout(() => window.close(), 2500);
+}
+
+const exportingLog = ref(false);
+const exportLogs = () => {
+    exportingLog.value = true;
+    bridge.page.config.exportLog().then(() => {
+        exportingLog.value = false;
+    });
 }
 
 const isFFmpegLocked = ref(false);
