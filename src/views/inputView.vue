@@ -12,7 +12,15 @@
             名称：<n-input v-model:value="courseName" style="width: 250px; display:inline-block" show-count :maxlength="80"
                 placeholder="" clearable @keydown.enter="save"></n-input>
         </div>
-        <n-button @click="save" type="primary">保存</n-button>
+        <div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+        <n-button @click="save" type="primary" class="float-right">保存</n-button>
     </n-space>
 </template>
 <script lang="ts" setup>
