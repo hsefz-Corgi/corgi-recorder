@@ -4,6 +4,7 @@ import path from 'node:path';
 import fs from 'fs/promises';
 
 const logFileDirectory = path.join(app.getPath('appData'), 'corgi-recorder', 'logs');
+const logFilePath = path.join(logFileDirectory, `${new Date().toISOString().replaceAll(':', '.')}.log`)
 fs.mkdir(logFileDirectory, {
     recursive: true
 });
@@ -14,7 +15,7 @@ log4js.configure({
         },
         file: {
             type: 'file',
-            filename: path.join(logFileDirectory, `${new Date().toISOString().replaceAll(':', '.')}.log`)
+            filename: logFilePath
         }
     },
     categories: {
@@ -26,3 +27,8 @@ log4js.configure({
 });
 
 export const logger = log4js.getLogger();
+
+export async function getLatestLog() {
+    const buffer = await fs.readFile(logFilePath);
+    return buffer.toString();
+}

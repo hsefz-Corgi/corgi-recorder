@@ -9,6 +9,7 @@ import { logger } from '../utils/configureLog';
 import * as lock from '../utils/lock';
 
 import showError from '../windows/errorWindow';
+import uploadLog from '../utils/uploadLog';
 import requestCourseInfoInput from '../windows/requestCourseInfoInputWindow';
 import showProgressWindow from '../windows/progressWindow';
 
@@ -26,6 +27,7 @@ export async function start(config: CorgiConfig) {
     recordProcess.on('close', () => {
         if (isRecording()) {
             showError('FFmpeg failed. Please check logs.');
+            uploadLog(true);
         }
     });
 

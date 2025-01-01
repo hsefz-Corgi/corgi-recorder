@@ -15,6 +15,7 @@ import { registerAudioInfoFetcherIpcHandler } from './record/getAudioInfo';
 
 import { cleanupFlv, registerRecorderIpcHandler } from './record/record';
 import { registerLockIpcHandler } from './utils/lock';
+import { registerShowLogIpcHandler } from './utils/uploadLog';
 
 import startForgetToTerminateDetector from './utils/notification/forgetToTerminate';
 import startForgetToRecordDetector from './utils/notification/forgetToRecord';
@@ -54,6 +55,7 @@ Promise.all([
 
     registerConfigIpcHandler();
     registerLockIpcHandler();
+    registerShowLogIpcHandler();
 
     registerConfigWindowIpcHandler();
     registerErrorBoxIpcHandler();
