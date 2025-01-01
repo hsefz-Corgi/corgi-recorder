@@ -24,7 +24,8 @@ contextBridge.exposeInMainWorld('corgi', {
     },
     page: {
         config: {
-            open: () => ipcRenderer.invoke('page:open:config')
+            open: () => ipcRenderer.invoke('page:open:config'),
+            exportLog: () => ipcRenderer.invoke('logs:upload', true)
         },
         error: {
             close: (id: string) => ipcRenderer.invoke('page:error:close', id)

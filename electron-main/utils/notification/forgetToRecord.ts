@@ -1,4 +1,3 @@
-import { dialog } from 'electron';
 import { readConfig } from '../loadConfig';
 import { getLast } from '../videosMetaInfo';
 import { logger } from '../configureLog';
@@ -10,6 +9,10 @@ export default function startForgetToRecordDetector() {
         if (notified) return;
         const info = getLast();
         const config = await readConfig();
+
+        if (!config.data.features.forgetToRecordNotification.enabled) return;
+        if (info?.status === 'recording') return;
+
         const currentTimeTable = config.data.notify.forgetToRecord.timetable[
             new Date().getDay() || 7
             /*
@@ -24,14 +27,22 @@ export default function startForgetToRecordDetector() {
         ];
         const currentDate = new Date();
         const currentMinute = currentDate.getHours() * 60 + currentDate.getMinutes();
-        for (let i = 0; i < currentTimeTable.length; i++) {
-            // TODO: Use O(log(n)) binary search to instead of O(n) foreach
-            const destination = parseInt(currentTimeTable[i].split(':')[0]) * 60 + parseInt(currentTimeTable[i].split(':')[1]);
-            if (info?.status != 'recording' && currentMinute == destination && config.data.features.forgetToRecordNotification) {
-                logger.warn('Forget to record', currentTimeTable[i]);
-                showError(config.data.software.title, config.data.notify.forgetToRecord.message);
+
+        let left = 0;
+        let right = currentTimeTable.length - 1;
+        while (left <= right) {
+            const middle = ~~((left + right) / 2);
+            const destination = parseInt(currentTimeTable[middle].split(':')[0], 10) * 60 + parseInt(currentTimeTable[middle].split(':')[1], 10);
+            if (destination < currentMinute) left = middle + 1;
+            else if (destination > currentMinute) right = middle - 1;
+            else {
+                logger.warn('Forget to record', currentTimeTable[middle], destination);
+                showError(config.data.notify.forgetToRecord.message);
                 notified = true;
-                setTimeout(() => notified = false, 60 * 1000);
+                setTimeout(() => {
+                    notified = false
+                }, 60 * 1000);
+                return;
             }
         }
     }, 5000);

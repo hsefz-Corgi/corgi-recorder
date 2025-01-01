@@ -10,7 +10,7 @@ export default function startForgetToTerminateDetector() {
         if (!info) return;
         const config = await readConfig();
         if (!notified) {
-            if (Date.now() - info.createTime >= config.data.notify.forgetToTerminate && info.status == 'recording' && config.data.features.forgetToTerminateNotification) {
+            if (Date.now() - info.createTime >= config.data.notify.forgetToTerminate && info.status === 'recording' && config.data.features.forgetToTerminateNotification) {
                 logger.info('Record time', Date.now() - info.createTime);
                 notified = true;
                 dialog.showMessageBox({

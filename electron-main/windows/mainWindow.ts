@@ -39,12 +39,12 @@ export default async function startMainWindow(config: CorgiConfig) {
             if (config.features.denyQuittingWhenRecording && recorder.isRecording()) {
                 logger.warn('Reject to close main window because of recording.');
                 e.preventDefault();
-                showError(config.software.title, '录屏中，无法关闭');
+                showError('录屏中，无法关闭');
 
             } else if (config.features.denyQuittingWhenExporting && recorder.isExporting()) {
                 logger.warn('Reject to close main window because of exporting.');
                 e.preventDefault();
-                showError(config.software.title, '导出文件中，无法关闭');
+                showError('导出文件中，无法关闭');
 
             } else if (!config.features.allowToExit.enabled) {
                 logger.warn('Reject to close main window because of no permission.');

@@ -81,7 +81,7 @@ export async function readConfig(): Promise<{
         } catch (err) {
             return {
                 ok: false,
-                data: null as any,
+                data: null as never,
                 error: `无法从 ${defaultConfigDownloadURL} 下载默认配置文件。\n` + err?.message
             }
         }
@@ -100,8 +100,8 @@ export async function applyConfig(config: CorgiConfig) {
     if (!config.features.allowToExit.enabled) rejectToExit(config);
 }
 
-export function registerConfigIpc() {
-    ipcMain.handle('config:get', (_e) => {
+export function registerConfigIpcHandler() {
+    ipcMain.handle('config:get', () => {
         return config;
     });
     ipcMain.handle('config:set', (_e, newConfig: CorgiConfig) => {

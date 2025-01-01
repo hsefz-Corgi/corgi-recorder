@@ -12,7 +12,7 @@ export default function requestCourseInfoInput(config: CorgiConfig) {
         await lock.waitForLock('course-info-input');
         const window = new BrowserWindow({
             width: 350,
-            height: 230,
+            height: 360,
             webPreferences: {
                 preload: path.join(import.meta.dirname, 'index.mjs'),
                 webSecurity: false

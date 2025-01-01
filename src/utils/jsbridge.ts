@@ -52,7 +52,8 @@ export interface Bridge {
     },
     page: {
         config: {
-            open: () => Promise<void>
+            open: () => Promise<void>,
+            exportLog: () => Promise<void>
         },
         error: {
             close: (id: number) => Promise<void>;
@@ -63,5 +64,6 @@ export interface Bridge {
     }
 };
 export default function getBridge(): Bridge {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (window as any).corgi;
 }

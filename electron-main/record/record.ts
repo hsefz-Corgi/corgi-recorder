@@ -9,6 +9,7 @@ import { logger } from '../utils/configureLog';
 import * as lock from '../utils/lock';
 
 import showError from '../windows/errorWindow';
+import uploadLog from '../utils/uploadLog';
 import requestCourseInfoInput from '../windows/requestCourseInfoInputWindow';
 import showProgressWindow from '../windows/progressWindow';
 
@@ -25,7 +26,8 @@ export async function start(config: CorgiConfig) {
     recordProcess.stderr?.on('data', (data) => logger.info('ffmpeg', data?.toString()));
     recordProcess.on('close', () => {
         if (isRecording()) {
-            showError(config.software.title, 'FFmpeg failed. Please check logs.');
+            showError('FFmpeg failed. Please check logs.');
+            uploadLog(true);
         }
     });
 
@@ -71,7 +73,7 @@ export function terminate(config: CorgiConfig) {
                         .split('=')[1]
                         .split('.')[0]
                         .split(':')
-                        .map(item => parseInt(item));
+                        .map(item => parseInt(item, 10));
                     /*
                      * example
                      * ffmpeg frame=  273 fps= 60 q=-1.0 Lsize=     994kB time=00:00:09.09 bitrate= 895.5kbits/s dup=248 drop=0 speed=1.98x
@@ -90,7 +92,7 @@ export function terminate(config: CorgiConfig) {
             const courseContent = await courseContentPromise;
             logger.info('course', courseContent);
             const currentTime = new Date();
-            const savePath = config.fileSavePath
+            const savePath = path.normalize(config.fileSavePath
                 .replaceAll('%year%', currentTime.getFullYear().toString())
                 .replaceAll('%month%', (currentTime.getMonth() + 1).toString())
                 .replaceAll('%date%', currentTime.getDate().toString())
@@ -98,7 +100,7 @@ export function terminate(config: CorgiConfig) {
                 .replaceAll('%minute%', currentTime.getMinutes().toString())
                 .replaceAll('%second%', currentTime.getSeconds().toString())
                 .replaceAll('%course%', courseContent?.name ?? '')
-                .replaceAll('%abstract%', courseContent?.abstract ?? '');
+                .replaceAll('%abstract%', courseContent?.abstract ?? ''));
 
             await fs.mkdir(path.dirname(savePath), {
                 recursive: true
@@ -110,7 +112,7 @@ export function terminate(config: CorgiConfig) {
 
             info.savePath = savePath;
             info.status = 'saved';
-            exec(`explorer.exe /select, "${info.savePath}"`);
+            exec(`explorer.exe /select,"${info.savePath}"`);
         });
     }, 2000);
 }
@@ -119,7 +121,7 @@ export function cleanupFlv() {
     const now = Date.now();
     const limit = 1000 * 60 * 60 * 24 * 3; // TODO: PUT IT TO CONFIG
     getAllMetadata().forEach(meta => {
-        if (meta.status == 'saved' && !meta.flvDeleted && now - meta.createTime > limit) {
+        if (meta.status === 'saved' && !meta.flvDeleted && now - meta.createTime > limit) {
             fs.unlink(meta.flvFilePath).then(() => {
                 meta.flvDeleted = true;
             });
@@ -128,13 +130,13 @@ export function cleanupFlv() {
 }
 
 export function isRecording() {
-    return getLast()?.status == 'recording';
+    return getLast()?.status === 'recording';
 }
 export function isExporting() {
-    return getLast()?.status == 'exporting';
+    return getLast()?.status === 'exporting';
 }
 
-export function registerRecorderIpc() {
+export function registerRecorderIpcHandler() {
     ipcMain.handle('record:start', async () => {
         start((await readConfig()).data);
     });

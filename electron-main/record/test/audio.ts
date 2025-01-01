@@ -7,7 +7,7 @@ import { exec } from 'child_process';
 import { logger } from '../../utils/configureLog';
 
 import * as lock from '../../utils/lock';
-import playVideo from '../../utils/playVideo';
+import showAssets from '../../utils/showAssets';
 
 export function registerAudioTestIpcHandler() {
     ipcMain.handle('record:test:audio', (e, microphone: string, computer: string, bitrate: number) => testAudioRecording(microphone, computer, bitrate));
@@ -44,7 +44,7 @@ export default function testAudioRecording(microphone: string, computer: string,
                     fs.unlink(flvPath);
                     resolve();
                     setTimeout(() => {
-                        playVideo(mp3Path);
+                        showAssets(mp3Path);
                     }, 200);
                 });
             }, 2000);

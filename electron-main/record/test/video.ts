@@ -7,7 +7,7 @@ import { exec } from 'child_process';
 import { logger } from '../../utils/configureLog';
 
 import * as lock from '../../utils/lock';
-import playVideo from '../../utils/playVideo';
+import showAssets from '../../utils/showAssets';
 
 export function registerVideoTestIpcHandler() {
     ipcMain.handle('record:test:video', (e, fps: number, bitrate: number, resolution: string) => testVideoRecording(fps, bitrate, resolution));
@@ -45,7 +45,7 @@ export default function testVideoRecording(fps: number, bitrate: number, resolut
                     fs.unlink(flvPath);
                     resolve();
                     setTimeout(() => {
-                        playVideo(mp4Path);
+                        showAssets(mp4Path);
                     }, 200);
                 });
             }, 2000);
