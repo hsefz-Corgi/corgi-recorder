@@ -35,7 +35,7 @@ export default async function uploadLog(show = false) {
     } catch (err) {
         logger.error('Failed to upload logs.');
         logger.error(err);
-        showError(`日志导出失败，无法连接至服务器\n${err}`);
+        showError(`日志导出失败，无法连接至服务器`);
     }
 }
 
