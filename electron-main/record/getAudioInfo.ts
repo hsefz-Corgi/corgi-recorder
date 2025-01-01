@@ -8,6 +8,7 @@ export default async function getAudioInfo() {
         name: string;
         deviceId: string;
     }[]>(resolve => {
+        logger.info('Fetching device info through ffmpeg');
         const ffmpeg = exec('ffmpeg -list_devices true -f dshow -i dummy');
         let data = '';
         ffmpeg.stderr?.on('data', chunks => {

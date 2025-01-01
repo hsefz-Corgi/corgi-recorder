@@ -18,7 +18,7 @@ export default async function uploadLog(show = false) {
     logger.info(`Upload logs to ${logCollectURL}, size ${logs.length}`);
 
     try {
-        const response = await fetch(`${serverAddress}log`, {
+        const response = await fetch(logCollectURL, {
             method: 'POST',
             headers: {
                 'content-type': 'text/plain; charset=utf-8'
@@ -29,8 +29,11 @@ export default async function uploadLog(show = false) {
             ok: boolean;
             data: string;
         } = await response.json();
-        if (show) showAssets(`${serverAddress}logs/${data.data}`);
+        const logShowURL = `${serverAddress}/logs/${data.data}`;
+        logger.info('Logs were uploaded to', logShowURL);
+        if (show) showAssets(logShowURL);
     } catch (err) {
+        logger.error('Failed to upload logs.');
         logger.error(err);
         showError(`日志导出失败，无法连接至服务器\n${err}`);
     }

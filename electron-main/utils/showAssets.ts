@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron';
+import { logger } from './configureLog';
 
 export default async function showAssets(path: string) {
     return new Promise<void>(resolve => {
@@ -9,10 +10,13 @@ export default async function showAssets(path: string) {
         });
         window.setAlwaysOnTop(true, 'screen-saver');
         window.setPosition(0, 0);
-        if (path.includes('http') || path.includes('https'))
+        if (path.includes('http') || path.includes('https')) {
             window.loadURL(path);
-        else
+            logger.info('Show Remote Assets', path);
+        } else {
             window.loadFile(path);
+            logger.info('Show Local Assets', path);
+        }
         window.setMenu(null);
         window.on('ready-to-show', () => window.show());
         window.on('closed', resolve);

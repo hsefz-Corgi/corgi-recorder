@@ -11,6 +11,7 @@ export default function showError(message: string) {
         errorBoxes[currentErrorBoxId].webContents.executeJavaScript(`window.showError('${message}', ${currentErrorBoxId})`);
         currentErrorBoxId = (currentErrorBoxId + 1) % errorBoxesMaximumCount;
     } else {
+        logger.error('Show error', message);
         const window = new BrowserWindow({
             height: 175,
             width: 350,
