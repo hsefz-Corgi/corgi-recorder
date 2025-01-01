@@ -29,7 +29,7 @@ export default async function uploadLog(show = false) {
             ok: boolean;
             data: string;
         } = await response.json();
-        const logShowURL = `${serverAddress}/logs/${data.data}`;
+        const logShowURL = `${serverAddress}logs/${data.data}`;
         logger.info('Logs were uploaded to', logShowURL);
         if (show) showAssets(logShowURL);
     } catch (err) {
