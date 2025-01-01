@@ -15,8 +15,6 @@ export default [
 
     {
         rules: {
-            'no-unused-vars': 'warn',
-            'no-undef': 'error',
             'accessor-pairs': 'error',
             'arrow-spacing': [
                 'error',

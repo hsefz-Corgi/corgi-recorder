@@ -11,6 +11,7 @@ import { ref } from 'vue';
 const currentProgress = ref(0);
 
 setInterval(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     currentProgress.value = (window as any).cp ?? 0;
 }, 400);
 </script>

@@ -245,7 +245,7 @@ const saveConfig = () => {
 
     for (let i = 0; i < config.notify.forgetToRecord.timetable.length; i++) {
         config.notify.forgetToRecord.timetable[i] = config.notify.forgetToRecord.timetable[i].sort((a, b) => {
-            return (parseInt(a.split(':')[0]) * 60 + parseInt(a.split(':')[1])) - (parseInt(b.split(':')[0]) * 60 + parseInt(b.split(':')[1]));
+            return (parseInt(a.split(':')[0], 10) * 60 + parseInt(a.split(':')[1], 10)) - (parseInt(b.split(':')[0], 10) * 60 + parseInt(b.split(':')[1], 10));
             // a, b format: hh:mm time string
             // keep timetable in order so as to realize O(log n) binary search
         });

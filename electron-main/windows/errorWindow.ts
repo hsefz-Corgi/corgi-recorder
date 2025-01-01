@@ -3,10 +3,10 @@ import path from 'node:path';
 import { logger } from '../utils/configureLog';
 
 const errorBoxes: BrowserWindow[] = [];
-const errorBoxesMaximumCount = 3;
+const errorBoxesMaximumCount = 3; // TODO: PUT IT INTO CONFIG
 let currentErrorBoxId = 0;
 export default function showError(message: string) {
-    if (errorBoxes.length == errorBoxesMaximumCount) {
+    if (errorBoxes.length === errorBoxesMaximumCount) {
         errorBoxes[currentErrorBoxId].show();
         errorBoxes[currentErrorBoxId].webContents.executeJavaScript(`window.showError('${message}', ${currentErrorBoxId})`);
         currentErrorBoxId = (currentErrorBoxId + 1) % errorBoxesMaximumCount;

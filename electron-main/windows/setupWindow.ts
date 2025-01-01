@@ -1,5 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
-import type { CorgiConfig } from '../utils/loadConfig';
+import { BrowserWindow } from 'electron';
 import path from 'path';
 
 export default async function startSetupWindow() {

@@ -29,7 +29,7 @@ export default async function getAudioInfo() {
                         })
                 }
             });
-            resolve(result.filter(item => item.deviceId != 'null'));
+            resolve(result.filter(item => item.deviceId !== 'null'));
         });
     });
 }

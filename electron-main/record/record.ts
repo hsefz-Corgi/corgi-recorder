@@ -73,7 +73,7 @@ export function terminate(config: CorgiConfig) {
                         .split('=')[1]
                         .split('.')[0]
                         .split(':')
-                        .map(item => parseInt(item));
+                        .map(item => parseInt(item, 10));
                     /*
                      * example
                      * ffmpeg frame=  273 fps= 60 q=-1.0 Lsize=     994kB time=00:00:09.09 bitrate= 895.5kbits/s dup=248 drop=0 speed=1.98x
@@ -121,7 +121,7 @@ export function cleanupFlv() {
     const now = Date.now();
     const limit = 1000 * 60 * 60 * 24 * 3; // TODO: PUT IT TO CONFIG
     getAllMetadata().forEach(meta => {
-        if (meta.status == 'saved' && !meta.flvDeleted && now - meta.createTime > limit) {
+        if (meta.status === 'saved' && !meta.flvDeleted && now - meta.createTime > limit) {
             fs.unlink(meta.flvFilePath).then(() => {
                 meta.flvDeleted = true;
             });
@@ -130,10 +130,10 @@ export function cleanupFlv() {
 }
 
 export function isRecording() {
-    return getLast()?.status == 'recording';
+    return getLast()?.status === 'recording';
 }
 export function isExporting() {
-    return getLast()?.status == 'exporting';
+    return getLast()?.status === 'exporting';
 }
 
 export function registerRecorderIpcHandler() {
