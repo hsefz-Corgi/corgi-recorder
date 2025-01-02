@@ -11,12 +11,11 @@
             <div class="bg-white pl-2 pr-2 pt-3 pb-3">
                 <div class="pl-4 pr-4 pt-4 text-base">{{ content }}</div>
             </div>
-
         </div>
     </div>
-    <div class="bg-gray-100 border-gray-400 border-l border-r border-b pl-2 pr-2 pt-2 pb-2 text-right ">
+    <div class="bg-gray-100 border-gray-400 border-l border-r border-b pl-2 pr-2 pt-2 pb-2 text-right">
         <button @click="close"
-            class="focus:outline-none focus:border-blue-400 select-none border-gray-400 border pl-4 pr-4 text-sm hover:bg-radial-gradient"
+            class="focus:outline-none border border-blue-400 hover:border-blue-300 select-none pl-4 pr-4 text-sm hover:bg-radial-gradient"
             autofocus @keydown.enter="close" ref="confirmButton">确定</button>
     </div>
 
