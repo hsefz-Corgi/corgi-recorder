@@ -12,14 +12,15 @@ export default function showProgressWindow(config: CorgiConfig) {
         skipTaskbar: true,
         webPreferences: {
             preload: path.join(import.meta.dirname, 'index.mjs'),
-            webSecurity: false
+            webSecurity: false,
         },
-        show: false
+        show: false,
     });
 
-    if (process.argv.includes('--devtools')) window.webContents.openDevTools({
-        mode: 'undocked'
-    });
+    if (process.argv.includes('--devtools'))
+        window.webContents.openDevTools({
+            mode: 'undocked',
+        });
     if (process.env.VITE_DEV_SERVER_URL) {
         window.loadURL(`${process.env.VITE_DEV_SERVER_URL}#/progress`);
     } else {
@@ -31,8 +32,17 @@ export default function showProgressWindow(config: CorgiConfig) {
     window.on('ready-to-show', () => window.show());
     window.setPosition(200, 200);
 
+    let isClosed = false;
+    window.addListener('closed', () => {
+        isClosed = true;
+    });
+
     return {
-        close: () => window.close(),
-        updateProgress: (progress: number) => window.webContents.executeJavaScript(`window.cp = ${progress}`)
-    }
+        close: () => {
+            if (!isClosed) window.close();
+        },
+        updateProgress: (progress: number) => {
+            if (!isClosed) window.webContents.executeJavaScript(`window.cp = ${progress}`);
+        },
+    };
 }
