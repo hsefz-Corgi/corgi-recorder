@@ -122,9 +122,8 @@ export function cleanupFlv() {
     const limit = 1000 * 60 * 60 * 24 * 3; // TODO: PUT IT TO CONFIG
     getAllMetadata().forEach(meta => {
         if (meta.status === 'saved' && !meta.flvDeleted && now - meta.createTime > limit) {
-            fs.unlink(meta.flvFilePath).then(() => {
-                meta.flvDeleted = true;
-            });
+            fs.unlink(meta.flvFilePath);
+            meta.flvDeleted = true;
         }
     });
 }
